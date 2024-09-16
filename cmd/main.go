@@ -25,9 +25,12 @@ func main() {
 	r.Use(middleware.CORSMiddleware())
 
 	// API versioning
+	authService := auth.NewService(db)
+	authHandler := auth.NewHandler(authService)
+
 	v1 := r.Group("/api/v1")
 	{
-		auth.RegisterRoutes(v1)
+		auth.RegisterRoutes(v1, authHandler)
 	}
 
 	// Start server

@@ -11,7 +11,7 @@ type User struct {
 	PhoneNumber string    `db:"phone_number" json:"phone_number"`
 	FirstName   string    `db:"first_name" json:"first_name"`
 	LastName    string    `db:"last_name" json:"last_name"`
-	Avatar      string    `db:"avatar" json:"avatar"`
+	Avatar      *string   `db:"avatar" json:"avatar"`
 	Password    string    `db:"password" json:"password"`
 	IsActive    bool      `db:"is_active" json:"is_active"`
 	Role        string    `db:"role" json:"role"`
