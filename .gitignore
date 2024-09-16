@@ -1,0 +1,38 @@
+# Go build output
+/bin/
+/obj/
+
+# Environment files
+.env
+.env.local
+
+# PostgreSQL files
+*.sql
+*.pgsql
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# MacOS specific files
+.DS_Store
+
+# Log files
+*.log
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Dependency directories
+/vendor/
+
+# Test binary
+*.test
+
+# Temporary files
+*.tmp
+*.swp
