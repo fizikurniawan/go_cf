@@ -4,7 +4,6 @@ package auth
 import (
 	"crowdfunding/internal/common/utils"
 	"crowdfunding/internal/response"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,7 +47,28 @@ func (h *Handler) Register(c *gin.Context) {
 	response.Success(c, "User registered successfully", nil)
 }
 
-func Login(c *gin.Context) {
-	// Dummy handler
-	c.JSON(http.StatusOK, gin.H{"message": "User logged in successfully"})
+func (h *Handler) Login(c *gin.Context) {
+	var dto LoginUserDTO
+	if err := c.ShouldBindJSON(&dto); err != nil {
+		fieldErrors := utils.FormatValidationErrors(err, &dto) // Gunakan fungsi utilitas
+
+		response.Error(c, "Invalid input", fieldErrors)
+		return
+	}
+
+	user, token, refresh, err := h.Service.Login(dto.Email, dto.Password)
+	if err != nil {
+		response.Error(c, "Failed to Login user", map[string][]string{"non_field_error": {err.Error()}})
+		return
+	}
+
+	data := map[string]string{
+		"first_name":    user.FirstName,
+		"last_name":     user.LastName,
+		"token":         token,
+		"refresh_token": refresh,
+	}
+
+	response.Success(c, "Loggin successfully", data)
+
 }

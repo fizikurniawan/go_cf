@@ -8,3 +8,8 @@ type RegisterUserDTO struct {
 	Password    string `json:"password" binding:"required"`
 	RegisterBy  string `json:"register_by" binding:"required"`
 }
+
+type LoginUserDTO struct {
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
+}

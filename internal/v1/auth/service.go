@@ -3,6 +3,7 @@ package auth
 
 import (
 	"crowdfunding/internal/common/models"
+	"crowdfunding/pkg/auth"
 	"time"
 
 	"github.com/google/uuid"
@@ -60,4 +61,30 @@ func (s *Service) GetByEmail(email string) (models.User, error) {
 	}
 
 	return user, nil
+}
+
+func (s *Service) Login(email string, password string) (user models.User, token string, refresh string, err error) {
+	user, err = s.GetByEmail(email)
+	if err != nil {
+		return
+	}
+
+	// validate password same with stored
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return
+	}
+
+	// get token and refresh token
+	token, err = auth.CreateAccessToken(&user, "HAHAHA", 10)
+	if err != nil {
+		return
+	}
+
+	refresh, err = auth.CreateRefreshToken(&user, "HAHAHA", 10)
+	if err != nil {
+		return
+	}
+
+	return
 }
